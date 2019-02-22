@@ -28,9 +28,10 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="w3.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" />
 <style>
 body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif;}
 body, html {
@@ -49,19 +50,19 @@ body, html {
 
 /* First image (Logo. Full height) */
 .bgimg-1 {
-    background-image: url('temp.jpg');
+    background-image: url("thisishoustonpor.jpg");
     min-height: 100%;
 }
 
 /* Second image (Portfolio) */
 .bgimg-2 {
-    background-image: url("skyline.jpg");
+    background-image: url("thisishoustonpor.jpg");
     min-height: 400px;
 }
 
 /* Third image (Contact) */
 .bgimg-3 {
-    background-image: url("temp.jpg");
+    background-image: url("thisishoustonpor.jpg");
     min-height: 400px;
 }
 
@@ -80,10 +81,6 @@ body, html {
   <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5PW98XH" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 
-
-
-
-
 <!-- Navbar (sit on top) -->
 <div class="w3-top">
   <div class="w3-bar" id="myNavbar">
@@ -93,6 +90,8 @@ body, html {
     <a href="#home" class="w3-bar-item w3-button">HOME</a>
     <a href="#resources" class="w3-bar-item w3-button w3-hide-small"></i>RESOURCES</a>
     <a href="#resources" class="w3-bar-item w3-button w3-hide-small"></i> FOOD</a>
+    <a href="#map" class="w3-bar-item w3-button w3-hide-small"></i> MAP</a>
+
     <a href="#help" class="w3-bar-item w3-button w3-hide-small"></i> HELP</a>
     <a href="#" class="w3-bar-item w3-button w3-hide-small w3-right w3-hover-red">
       <i class="fa fa-search"></i>
@@ -111,46 +110,238 @@ body, html {
 <!-- First Parallax Image with Logo Text -->
 <div class="bgimg-1 w3-display-container w3-opacity-min" id="home">
   <div class="w3-display-middle" style="white-space:nowrap;">
-    <span class="w3-center w3-padding-large w3-black w3-xlarge w3-wide w3-animate-opacity">THIS <span class="w3-hide-small">IS</span> HOUSTON</span>
+    <span class="w3-center w3-padding-large w3-black w3-xlarge w3-wide w3-animate-opacity">
+      THIS <span class="w3-hide-small">IS</span> HOUSTON</span>
   </div>
 </div>
 
 <!-- Container (About Section) -->
 <div class="w3-content w3-container w3-padding-64" id="about">
-  <h3 class="w3-center">HOW WE HELP</h3>
+  <h3 class="w3-center">HOW WE CAN HELP</h3>
   <p class="w3-center"><em>HERE FOR YOU</em></p>
   <p>We have created THIS IS HOUSTON for our LGBTQ+ community and their families, to provide the resources and help needed for a stronger base.
 We envision a healthier society marked by permanent, positive changes in attitudes and behaviors toward the LGBT communities, and the ability of all LGBT individuals to realize their fullest potential.</p>
   <div class="w3-row">
   </div>
-</div>
+</div id="map">
+
+
 
 
 
 <div>
-  MAP GOES HERE
-  <img src="map.jpeg" class="w3-border w3-padding" alt="Alps">
-  <br>FOOD LOCATIONS
-  <br> CLOTHING LOCATIONS
+
+  <html>
+
+  <head>
+
+    <h3  class="w3-center">MAP OF HOUSTON RESOURCES</h3>
+
+
+      <title>Leaflet Web Map</title>
+
+      <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" />
+
+      <script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
+      <!---http://joshuafrazier.info/leaflet-basics/ -->
+
+      <style>
+
+          #map {
+              width: 960px;
+              height: 800px;
+              margin-left: 250px;
+              margin-bottom: 200px;
+          }
+      </style>
+
+  </head>
+
+  <body>
+
+      <div id="map"></div>
+
+      <script>
+
+          //****ICONS****
+          var foodIcon = L.icon({
+              iconUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS41ZIhADfdsUBaXQUlGvcEZ95KEUJEk-OM9RZO7q-0kW2jPh-0Rw',
+              iconSize: [25, 25], // size of the icon
+          });
+          var clothesIcon = L.icon({
+              iconUrl: 'https://img.freepik.com/free-icon/clothes-hanger_318-63440.jpg?size=338c&amp;ext=jpg',
+              iconSize: [25, 25], // size of the icon
+          });
+          var workIcon = L.icon({
+              iconUrl: 'https://cdn3.iconfinder.com/data/icons/google-material-design-icons/48/ic_work_48px-512.png',
+              iconSize: [25, 25], // size of the icon
+          });
+          var showerIcon = L.icon({
+              iconUrl: 'https://cdn1.iconfinder.com/data/icons/travel-and-leisure-vol-1/512/9-512.png',
+              iconSize: [25, 25], // size of the icon
+          });
+          var doctorIcon = L.icon({
+              iconUrl: 'https://cdn3.iconfinder.com/data/icons/medical-192/512/stetoskop-512.png',
+              iconSize: [25, 25], // size of the icon
+          });
+          var shelterIcon = L.icon({
+              iconUrl: 'https://cdn2.iconfinder.com/data/icons/rental-icon/240/bed-512.png',
+              iconSize: [25, 25], // size of the icon
+          });
+
+
+
+          //ToDo
+          //Create a class that references ann api to get gps coordinates based on google street location
+
+          //****RESOURCE LOCATIONS****
+          var marker = L.marker([29.75702053168832, -95.37062473090407], { icon: foodIcon});
+          marker.alt = "XXmarker";
+          marker.bindPopup("Example food icon");
+
+          //Actual places... to add corresponding resources
+          var covenantHouse = L.marker([29.7430931, -95.39291220000001], { icon: clothesIcon });
+          covenantHouse.alt = "XXcovenant";
+          covenantHouse.bindPopup("Covenant House Texas \n1111 Lovett Blvd, Houston, TX 77006\n (713) 523-2231 Oper 24/7");
+
+          var breadOfLife = L.marker([29.7451481, -95.36504530000002], { icon: clothesIcon});
+          breadOfLife.alt = "XXbreadOfLife";
+          breadOfLife.bindPopup("Bread of Life Inc.\n 1703 Gray St, Houston, TX 77003\n (713) 650-0595]n Hours TBD")
+
+          var marker2 = L.marker([29.75702053168832, -95.37062473090407], { icon: foodIcon });
+          marker2.alt = "XXmarker2";
+          marker2.bindPopup("Example food icon");
+
+          var texasWorkforce = L.marker([29.759430, -95.369950], { icon: workIcon });
+          texasWorkforce.alt = "XXtexasWorkforce";
+          texasWorkforce.bindPopup("Texas Workforce: Workforce Solutions\n 500 McKinney Houston, TX 77022\nMon, Tues 2pm - 4pm\nWed - Thurs 10am - Noon\n https://twx.texas.gov/")
+
+          var montroseCenter = L.marker([29.746451, -95.393936], { icon: foodIcon });
+          montroseCenter.alt = "XXmontroseCenter";
+          montroseCenter.bindPopup("The Montrose Center\n401 Branard Street, Houston, TX 77006\n8am - 7pm; (713)529-0037");
+
+          var aidsFoundation = L.marker([29.724552, -95.494814], { icon: doctorIcon });
+          aidsFoundation.alt = "XXaidsFoundation";
+          aidsFoundation.bindPopup("Aids Foundation Houstin Inc, Health\n www.aidshelp.org\n (713) 623-6796"); //food and shelteras well
+
+          var theBeacon = L.marker([29.759026, -95.360006], { icon: showerIcon });
+          theBeacon.alt = "XXtheBeacon";
+          theBeacon.bindPopup("The Beacon (Cathedral Health Ministries)\n 1212 Prairie St, Houston, TX 77002 ]\n (713) 220-9737"); //food and shelteras well
+          //!!!!MAP is MADE!!!!
+          var map = L.map('map', {
+              scrollWheelZoom: true
+          }).setView([29.75702053168832, -95.37062473090407], 15);
+
+          var lat = 1.0;
+          var lng = 1.0;
+          var currentLoc = L.marker([lat, lng]).addTo(map);
+
+          function onMapClick(e) {
+
+              lat = e.latlng.lat;
+              lng = e.latlng.lng;
+
+              map.removeLayer(currentLoc); //Replaces last marker with new one
+              map.setView([lat, lng], 15);
+              currentLoc = L.marker([lat, lng]).addTo(map).bindPopup("Your Specified Location");
+
+              var inRange = new L.layerGroup();
+              latlng_a = currentLoc.getLatLng();
+              var numMiles = 3;
+              var radius = 1609.34 *numMiles;
+
+              map.eachLayer(function (layer) {
+
+                  if (layer.alt.substring(0, 2) === 'XX') {
+                      var distance = latlng_a.distanceTo(layer.getLatLng());
+                      if (distance < radius) {
+                          layer.addTo(inRange);
+                      }
+
+                  }
+
+              });
+          }
+          map.on('click', onMapClick);
+
+          //****Add control/filters
+          var foodMarkers = L.layerGroup([marker, marker2, montroseCenter])
+              .addTo(map);
+          var clothesMarkers = L.layerGroup([covenantHouse, breadOfLife])
+              .addTo(map);
+          var workMarkers = L.layerGroup([texasWorkforce]).addTo(map);
+          var drMarkers = L.layerGroup([aidsFoundation]).addTo(map);
+          var showerMarkers = L.layerGroup([theBeacon]).addTo(map);
+
+          var b = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+              attribution: '&copy; <a> href="http://osm.org/copyright"OpenStreetMap</a> contributors'
+          }).addTo(map);
+
+
+
+          var overlays = {
+              "Food": foodMarkers,
+              "Clothes": clothesMarkers,
+              "Work/Unemployment Services": workMarkers,
+              "Health Services": drMarkers,
+              "Showers": showerMarkers
+          };
+
+
+
+
+          L.control.layers(null, overlays, { collapsed: false }).addTo(map);
+
+              //ToDo
+              //add search: https://www.youtube.com/watch?v=kAwrqQDwVq0&t=37s
+
+
+
+
+
+
+
+
+      </script>
+
+  </body>
+
+  </html>
+
+
+
   </div>
+
+
+
+
+
+
+
+
 
 
 <!-- __________________FORMS______________________________________ -->
 <div id="resources" class="bgimg-2 w3-display-container w3-opacity-min">
   <div class="w3-display-middle">
-    <span class="w3-xxlarge w3-text-white w3-wide">STAY ANONYMOUS</span>
+    <!-- <span class="w3-xxlarge w3-text-white w3-wide">STAY ANONYMOUS</span> -->
   </div>
 </div>
 
+  <h3 class="w3-center">STAY ANONYMOUS</h3>
+
+
 <!-- Container (Portfolio Section) -->
 <div class="w3-content w3-container w3-padding-64" id="portfolio">
-  <h3 class="w3-center">THIS IS A COMPLETELY OPTIONAL FORM THAT WILL HELP FILTER THE MOST RELEVANT RESOURCES IN YOUR AREA. YOU CAN ANSWER AS MAY OR AS FEW QUESTIONS AS YOU LIKE.</h3>
+  <h4 class="w3-center">THIS IS A COMPLETELY OPTIONAL FORM THAT WILL HELP FILTER THE MOST RELEVANT RESOURCES IN YOUR AREA. YOU CAN ANSWER AS MAY OR AS FEW QUESTIONS AS YOU LIKE.</h4>
 <center>
+  <form action="/submit" method="POST" id="contact_us">
   <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSe3GJj1qEBGBwcsQBkb0OK1R8_WgRquLY0wPPynZrbxxb4c-A/viewform?embedded=true" width="640" height="2534" frameborder="0" marginheight="0" marginwidth="0">Loading...</iframe>
 </center>
 
 <center>
-<iframe src="https://docs.google.com/forms/d/e/1FAIpQLSdRvOzng5ZoxvEnhq7zQBNXcDqv4RRc4MYkhTKeWvjH-I6ShQ/viewform?embedded=true" width="640" height="4807" frameborder="0" marginheight="0" marginwidth="0">Loading...</iframe>
+  <form action="/submit" method="POST" id="contact_us">
+  <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSdRvOzng5ZoxvEnhq7zQBNXcDqv4RRc4MYkhTKeWvjH-I6ShQ/viewform?embedded=true" width="640" height="4807" frameborder="0" marginheight="0" marginwidth="0">Loading...</iframe>
 </center>
 
   <!-- Responsive Grid. Four columns on tablets, laptops and desktops. Will stack on mobile devices/small screens (100% width) -->
@@ -187,30 +378,55 @@ We envision a healthier society marked by permanent, positive changes in attitud
 <!-- Third Parallax Image with Portfolio Text -->
 <div id="help" class="bgimg-3 w3-display-container w3-opacity-min">
   <div class="w3-display-middle">
-     <span class="w3-xxlarge w3-text-white w3-wide">CONTACT</span>
+     <!-- <span class="w3-xxlarge w3-text-white w3-wide">CONTACT</span> -->
   </div>
 </div>
 
 <!-- Container (Contact Section) -->
 <div class="w3-content w3-container w3-padding-64" id="contact">
-  <h3 class="w3-center">THIS IS HOUSTON</h3>
-  <p class="w3-center"><em>CRISIS HOTLINE INFORMATION</em></p>
 
-  <div class="w3-row w3-padding-32 w3-section">
+
+  <h3 class="w3-center">CRISIS AND SUICIDE</h3>
+  <p><center>
+
+    LGBT Switchboard of Houston 713-529-3211
+    <br>Crisis Intervention of Houston:
+    <br>THE HOTLINE: 832.416.1177
+    <br>TEEN: 832.416.1199 (CALL)
+    <br>TEEN: 281.201.4430 (TEXT)
+
+<br>National Suicide Prevention Lifeline (800) 273-TALK (8255) or (800) SUICIDE
+
+<br>Harris Center Crisis Line (866) 970-4770
+
+<br>Veteran Crisis Line (800) 273-8255 Then Press 1
+
+<br>Girls & Boys Town National Hotline (800) 448-3000
+
+<br>National Youth Crisis Hotline (800) 442-HOPE (4673)
+
+
+
+  <!-- <div class="w3-row w3-padding-32 w3-section">
     <div class="w3-col m4 w3-container">
     </div>
     <div class="w3-col m8 w3-panel">
-      <div class="w3-large w3-margin-bottom">
-        <i class="fa fa-map-marker fa-fw w3-hover-text-black w3-xlarge w3-margin-right"></i> Houston, US<br>
+
+      <div class="w3-large w3-margin-bottom"> -->
+
+      <h3 class="w3-center">CONTACT US</h3>
+      <br>  <i class="fa fa-map-marker fa-fw w3-hover-text-black w3-xlarge w3-margin-right"></i> Houston, US<br>
         <i class="fa fa-phone fa-fw w3-hover-text-black w3-xlarge w3-margin-right"></i> Phone: 999-111-1234<br>
         <i class="fa fa-envelope fa-fw w3-hover-text-black w3-xlarge w3-margin-right"></i> Email: thisishoustonproject@Gmail.com<br>
+        <p>Swing by for a wristband for a helpful community</p>
       </div>
 
-      <p>Swing by for a wristband for a helpful community</p>
+
 
 
   </div>
 </div>
+
 
 <!-- Footer -->
 <footer class="w3-center w3-black w3-padding-64 w3-opacity w3-hover-opacity-off">

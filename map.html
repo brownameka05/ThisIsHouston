@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+    <title>Leaflet Web Map</title>
+
+    <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" />
+
+    <script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
+    <!---http://joshuafrazier.info/leaflet-basics/ -->
+
+    <style>
+        #map {
+            width: 960px;
+            height: 500px;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <div id="map"></div>
+
+    <script>
+
+        //****ICONS****
+        var foodIcon = L.icon({
+            iconUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS41ZIhADfdsUBaXQUlGvcEZ95KEUJEk-OM9RZO7q-0kW2jPh-0Rw',
+            iconSize: [25, 25], // size of the icon
+        });
+        var clothesIcon = L.icon({
+            iconUrl: 'https://img.freepik.com/free-icon/clothes-hanger_318-63440.jpg?size=338c&amp;ext=jpg',
+            iconSize: [25, 25], // size of the icon
+        });
+
+        //ToDo
+        //Create a class that references ann api to get gps coordinates based on google street location
+
+        //****RESOURCE LOCATIONS****
+        var marker = L.marker([29.75702053168832, -95.37062473090407], { icon: foodIcon });
+
+        //Actual places... to add corresponding resources
+        var covenantHouse = L.marker([29.7430931, -95.39291220000001], { icon: clothesIcon });
+        var breadOfLife = L.marker([29.7451481, -95.36504530000002], { icon: clothesIcon });
+
+        var marker2 = L.marker([29.75702053168832, -95.37062473090407], { icon: foodIcon });
+
+
+        //****SORT INTO CATEGORIES****
+        //To be implemented using a for loopand going through the markers added
+        var foodMarkers = L.layerGroup([marker, marker2]);
+        var clothesMarkets = L.layerGroup([covenantHouse, breadOfLife]);
+
+
+        //!!!!MAP is MADE!!!!
+        var map = L.map('map', {
+            scrollWheelZoom: true
+        }).setView([29.75702053168832, -95.37062473090407], 15);
+
+        var lat = 1.0;
+        var lng = 1.0;
+        var currentLoc = L.marker([lat, lng]).addTo(map);
+
+        function onMapClick(e) {
+
+            lat = e.latlng.lat;
+            lng = e.latlng.lng;
+
+            map.removeLayer(currentLoc); //Replaces last marker with new one
+            map.setView([lat, lng], 15);
+            currentLoc = L.marker([lat, lng]).addTo(map).bindPopup("Your Specified Location");
+
+        }
+        map.on('click', onMapClick);
+
+        //****Add control/filters
+        var foodMarkers = L.layerGroup([marker, marker2])
+            .addTo(map);
+        var clothesMarkers = L.layerGroup([covenantHouse, breadOfLife])
+            .addTo(map);
+
+
+        var b = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+
+
+        var overlay = new L.layerGroup();
+
+        marker.addTo(overlay);
+        var overlays = {
+           "Food": foodMarkers,
+           "Clothes": clothesMarkers
+        };
+
+        L.control.layers(null, overlays, { collapsed: false }).addTo(map);
+
+        //ToDo
+        //add search: https://www.youtube.com/watch?v=kAwrqQDwVq0&t=37s
+
+
+
+
+
+
+
+
+    </script>
+
+</body>
+
+</html>
